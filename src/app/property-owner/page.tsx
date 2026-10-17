@@ -226,38 +226,38 @@ export default function PropertyOwnerPage() {
         </div>
       </section>
 
-      <section className="section bg-ink on-dark" aria-labelledby="cost-h">
-        <div className="container split">
-          <div className="reveal">
-            <span className="eyebrow">What listing costs</span>
-            <div className="price-giant" aria-label="Zero rupees">
-              ₹0.
-            </div>
-          </div>
-          <div className="reveal">
-            <h2 className="section-title cost-title" id="cost-h">
-              Free for owners. Always.
-            </h2>
-            <p className="lead cost-lead">
-              Listing, photographs, enquiries and the owner dashboard are free, and there is no
-              commission on your rent. We are paid by tenants who choose to connect.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="section bg-white" aria-labelledby="trust-h">
+      {/* What listing costs + Verified = trust, merged into one dark section */}
+      <section className="section bg-ink on-dark bi owner-bi owner-cost" aria-labelledby="cost-h">
         <div className="container">
-          <div className="strip reveal">
-            <div className="icon-box">
-              <Icon name="shield" />
+          <h2 className="sr-only" id="cost-h">
+            What listing costs, and why verified means trust
+          </h2>
+          <div className="bi-rows">
+            <div className="bi-row is-ifh reveal">
+              <div className="bi-main">
+                <p className="bi-line">
+                  <span className="bi-big">Zero.</span>
+                  <span className="bi-word">Free for owners. Always.</span>
+                </p>
+                <p className="bi-sub">
+                  Listing, photographs, enquiries and the owner dashboard are free, and there is no
+                  commission on your rent. We are paid by tenants who choose to connect.
+                </p>
+              </div>
+              <span className="bi-note">→ What listing costs</span>
             </div>
-            <div>
-              <h3 id="trust-h">Verified = trust</h3>
-              <p>
-                Every listing is checked against ownership documents. Verification covers the
-                listing and the owner&apos;s identity.
-              </p>
+            <div className="bi-row reveal">
+              <div className="bi-main">
+                <p className="bi-line">
+                  <span className="bi-big">Verified</span>
+                  <span className="bi-word">= trust</span>
+                </p>
+                <p className="bi-sub">
+                  Every listing is checked against ownership documents. Verification covers the
+                  listing and the owner&apos;s identity.
+                </p>
+              </div>
+              <span className="bi-note">→ Verification</span>
             </div>
           </div>
         </div>

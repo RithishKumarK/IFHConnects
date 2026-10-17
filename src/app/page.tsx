@@ -6,21 +6,10 @@ import { Icon } from "@/components/Icon";
 import { PhoneViewer } from "@/components/PhoneViewer";
 import { AboutWheel } from "@/components/AboutWheel";
 import { BrokerIndex } from "@/components/BrokerIndex";
-import { CityGrid, CtaBand, IconCards, SectionHead } from "@/components/Sections";
+import { VisitCalendar } from "@/components/VisitCalendar";
+import { CtaStrip } from "@/components/CtaStrip";
+import { CityGrid } from "@/components/Sections";
 import { ALL_FAQS, type IconCard } from "@/content/site";
-
-const CATEGORIES: IconCard[] = [
-  {
-    icon: "home",
-    title: "Long-stay homes",
-    text: "1, 2 and 3 BHK homes, PGs and villas, listed directly by their owners.",
-  },
-  {
-    icon: "building",
-    title: "Office spaces",
-    text: "Dedicated desks, meeting rooms and full offices you can compare side by side.",
-  },
-];
 
 const ABOUT = [
   {
@@ -164,6 +153,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      <CtaStrip />
+
       {/* About IFH Connects — about + about IFH Connects merged */}
       <section className="section bg-white about-section" id="about" aria-labelledby="about-h">
         <div className="container">
@@ -261,18 +252,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Two categories */}
-      <section className="section bg-white" aria-labelledby="cat-h">
-        <div className="container">
-          <SectionHead
-            id="cat-h"
-            eyebrow="What you can find"
-            title="One platform, two kinds of space"
-          />
-          <IconCards cards={CATEGORIES} layout="cat-grid" className="duo" />
-        </div>
-      </section>
-
       <BrokerIndex>
         <p className="band-cta reveal">
           <Link className="btn" href="/#why-ifh">
@@ -283,21 +262,14 @@ export default function HomePage() {
 
       <CityGrid />
 
+      <VisitCalendar />
+
       <Faq
         id="home-faq"
         eyebrow="Before you ask"
         title="Questions people actually have"
         items={ALL_FAQS}
       />
-
-      <CtaBand title="Find your place. Skip the broker.">
-        <Link className="btn" href="/tenant#listings">
-          Browse homes
-        </Link>
-        <Link className="btn btn-secondary" href="/property-owner">
-          List your property
-        </Link>
-      </CtaBand>
     </>
   );
 }
