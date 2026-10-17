@@ -3400,10 +3400,11 @@ a.post:hover {
     transform-origin: top right;
   }
   .hero-home .fc-bottom {
-    top: 262px;
+    top: 276px;
     bottom: auto;
-    left: 0;
+    left: -12px; /* pushed out toward the screen edge so it clears the phone */
     right: auto;
+    transform: scale(0.74);
     transform-origin: top left;
   }
 }
