@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 
 const MODEL_URL = "/models/iphone-18-pro-max.glb";
 const SCREEN_URL = "/assets/img/app-screen.png";
+/** A render of the glb in the viewer's resting pose, shown until the live 3D model is ready. */
+const POSTER_URL = "/assets/img/phone-poster.png";
 
 /**
  * 3D iPhone for the home hero. Drag (or use the arrow keys) to spin it 360°.
@@ -201,10 +203,10 @@ export function PhoneViewer() {
     >
       <Image
         className="phone-fallback"
-        src={SCREEN_URL}
+        src={POSTER_URL}
         alt="IFH Connects app showing rentals in Bengaluru"
-        width={780}
-        height={2074}
+        width={541}
+        height={1100}
         style={{ width: "auto" }}
         priority
       />
