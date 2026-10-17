@@ -3381,21 +3381,30 @@ a.post:hover {
     font-size: 11px;
     padding: 8px 14px;
   }
+  /* badges at opposite corners of the phone, tucked in close to it */
   .hero-home .float-card {
-    padding: 8px 12px;
+    padding: 7px 11px;
     gap: 8px;
-    transform: scale(0.82);
+    transform: scale(0.8);
+  }
+  .hero-home .float-card > svg.i {
+    width: 28px;
+    height: 28px;
+    padding: 5px;
   }
   .hero-home .fc-top {
-    top: auto;
-    bottom: 0;
-    right: -6px;
-    transform-origin: bottom right;
+    top: 70px;
+    bottom: auto;
+    right: 0;
+    left: auto;
+    transform-origin: top right;
   }
   .hero-home .fc-bottom {
-    bottom: 0;
-    left: -6px;
-    transform-origin: bottom left;
+    top: 262px;
+    bottom: auto;
+    left: 0;
+    right: auto;
+    transform-origin: top left;
   }
 }
 
