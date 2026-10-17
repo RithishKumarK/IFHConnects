@@ -115,6 +115,14 @@ const DOORS = [
 export default function HomePage() {
   return (
     <>
+      {/* start downloading the 3D phone right away so it is ready sooner */}
+      <link
+        rel="preload"
+        href="/models/iphone-18-pro-max.glb"
+        as="fetch"
+        type="model/gltf-binary"
+        crossOrigin="anonymous"
+      />
       {/* Hero */}
       <section className="hero hero-home" aria-labelledby="home-h">
         <div className="container hero-grid">

@@ -2000,15 +2000,30 @@ a.post:hover {
 .phone-stage.ready canvas {
   opacity: 1;
 }
+/* Placeholder shown while the real 3D phone loads. It is posed like the 3D model (turned a
+   little, tilted, with a metal frame, side edge and a deep shadow) and sits in the same place,
+   so the swap to the live model is seamless and it never reads as a flat 2D image. */
 .phone-fallback {
   position: absolute;
   left: 50%;
-  top: 50%;
-  height: 88%;
+  top: calc((1 - var(--phone-fill, 0.7)) * 50%);
+  height: calc(var(--phone-fill, 0.7) * 100%);
+  aspect-ratio: 0.49;
   width: auto;
-  transform: translate(-50%, -50%);
-  border-radius: 36px;
-  border: 8px solid var(--ink);
+  object-fit: cover;
+  object-position: top;
+  transform: translateX(-50%) perspective(1100px) rotateY(-18deg) rotateX(3deg) rotateZ(-3deg);
+  transform-origin: center;
+  border-radius: 12% / 5.6%;
+  border: 7px solid #0c0d0b;
+  background: #fff;
+  box-shadow:
+    0 0 0 2px #d4d7dc,
+    0 0 0 4px #9fa3aa,
+    5px 2px 0 4px #c3c6cc,
+    9px 4px 0 4px #aeb2b9,
+    26px 34px 42px rgba(14, 15, 12, 0.34),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.25);
   z-index: 1;
   transition: opacity 0.4s;
 }
@@ -3236,6 +3251,10 @@ a.post:hover {
     top: calc(var(--phone-top) + var(--phone-fill) * 100% + 14px);
     bottom: auto;
   }
+  /* the loading placeholder starts at the same height as the lifted 3D phone */
+  .hero-home .phone-fallback {
+    top: var(--phone-top);
+  }
 
   /* Laptop only: everything about 15% larger (phones and tablets keep their own sizes) */
   .hero-home {
@@ -3373,6 +3392,9 @@ a.post:hover {
   .hero-home .phone-stage canvas,
   .hero-home .phone-stage::before {
     transform: translateY(-56px);
+  }
+  .hero-home .phone-fallback {
+    top: calc((1 - var(--phone-fill)) * 50% - 56px);
   }
   .hero-home .drag-hint {
     top: 360px;
