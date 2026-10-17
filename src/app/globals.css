@@ -3294,13 +3294,53 @@ a.post:hover {
 
 /* Phones: bigger phone, pulled up under the headline, compact badges at the corners */
 @media (max-width: 640px) {
+  /* text first (headline, paragraph, trust points), then a smaller phone with its badges below */
   .hero-home {
-    --phone-fill: 0.9;
+    --phone-fill: 0.72;
     padding-top: 12px;
+    padding-bottom: 28px;
+  }
+  .hero-home .hero-grid {
+    gap: 0;
+  }
+  .hero-home .hero-grid .eyebrow {
+    order: 1;
+    font-size: 13px;
+  }
+  .hero-home .hero-grid .hero-title {
+    order: 2;
+    margin-top: 10px;
+  }
+  .hero-home .hero-grid .lead {
+    order: 3;
+    margin: 16px auto 0;
+    max-width: 34ch;
+    font-size: 17px;
+    line-height: 1.5;
+  }
+  .hero-home .hero-grid .trust-row {
+    order: 4;
+    margin-top: 18px;
+    gap: 10px 20px;
+    font-size: 15px;
+    justify-content: center;
   }
   .hero-home .hero-grid .phone-stage {
-    min-height: clamp(500px, 128vw, 620px);
-    margin-top: -28px;
+    order: 5;
+    min-height: 470px;
+    margin-top: 12px;
+  }
+  /* lift the phone so it sits in the top of its box, leaving room for the hint and badges */
+  .hero-home .phone-stage canvas,
+  .hero-home .phone-stage::before {
+    transform: translateY(-56px);
+  }
+  .hero-home .drag-hint {
+    top: 360px;
+    bottom: auto;
+    white-space: nowrap;
+    font-size: 11px;
+    padding: 8px 14px;
   }
   .hero-home .float-card {
     padding: 8px 12px;
@@ -3308,13 +3348,14 @@ a.post:hover {
     transform: scale(0.82);
   }
   .hero-home .fc-top {
-    top: 4%;
-    right: -4px;
-    transform-origin: top right;
+    top: auto;
+    bottom: 0;
+    right: -6px;
+    transform-origin: bottom right;
   }
   .hero-home .fc-bottom {
-    bottom: 56px;
-    left: -4px;
+    bottom: 0;
+    left: -6px;
     transform-origin: bottom left;
   }
 }
