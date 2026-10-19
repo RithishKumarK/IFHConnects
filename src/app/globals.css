@@ -331,8 +331,11 @@ a:hover > .arrow-nudge {
 
 /* ---------- 4. Header ---------- */
 .site-header {
-  position: sticky;
+  /* pinned to the viewport in the same spot on laptop and phone; main reserves its height */
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   background: transparent;
   border-bottom: 1px solid transparent;
@@ -353,23 +356,19 @@ a:hover > .arrow-nudge {
   max-width: 1400px;
   margin-top: 14px;
   padding: 0 10px 0 24px;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.42));
-  backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid var(--green);
   border-radius: var(--r-pill);
-  box-shadow:
-    0 8px 32px rgba(14, 15, 12, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  box-shadow: none;
   transition:
     box-shadow var(--dur) var(--ease),
     background var(--dur) var(--ease);
 }
 .site-header.scrolled .header-inner {
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.55));
-  box-shadow:
-    0 12px 36px rgba(14, 15, 12, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: none;
 }
 
 /* Lime loading / scroll-progress bar pinned above the navbar */
@@ -426,10 +425,11 @@ a:hover > .arrow-nudge {
   font-weight: 800;
   font-size: 17px;
   letter-spacing: -0.01em;
+  color: #000;
 }
 .brand-cap {
   font-size: 12px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.8);
 }
 .nav-links {
   display: flex;
@@ -443,7 +443,7 @@ a:hover > .arrow-nudge {
   padding: 0 6px;
   font-weight: 500;
   font-size: 15px;
-  color: var(--body);
+  color: #fff;
   text-decoration: none;
   transition: color var(--dur) var(--ease);
 }
@@ -460,10 +460,10 @@ a:hover > .arrow-nudge {
   transition: transform var(--dur) var(--ease);
 }
 .nav-links a:hover {
-  color: var(--ink);
+  color: #fff;
 }
 .nav-links a[aria-current="page"] {
-  color: var(--ink);
+  color: #fff;
   font-weight: 600;
 }
 .nav-links a[aria-current="page"]::after,
@@ -4988,5 +4988,538 @@ section[aria-labelledby="otools-h"] .eyebrow {
     scroll-snap-stop: always;
     border-radius: 28px;
     transform-origin: 50% 50%;
+  }
+}
+
+/* ---------- Villa hero (home): sunrise → sunset on scroll ----------
+   --p (0 → 1) is the scroll progress through the pinned section, set by VillaHero.tsx. */
+.villa-hero {
+  --p: 0;
+  /* sunset fades in over the middle of the scroll, eased at both ends */
+  --fade: clamp(0, calc((var(--p) - 0.12) / 0.66), 1);
+  position: relative;
+  height: 230svh;
+  margin-top: calc(-1 * var(--hdr, 0px));
+  background: #1b1a17;
+}
+.villa-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+}
+.villa-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  will-change: opacity;
+}
+.villa-mob {
+  display: none;
+}
+.villa-layer img {
+  object-fit: cover;
+  object-position: 62% 50%;
+}
+/* static photos, no zoom: sunrise holds, sunset crossfades in on scroll */
+.villa-sunset {
+  opacity: var(--fade);
+}
+.villa-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(12, 14, 10, 0.5) 0%,
+      rgba(12, 14, 10, 0.2) 36%,
+      rgba(12, 14, 10, 0) 58%
+    );
+}
+.villa-content {
+  position: relative;
+  padding-top: calc(var(--hdr, 0px) * 0.6);
+  color: #fff;
+  transform: translateY(calc(var(--p) * -36px));
+}
+.villa-content .eyebrow {
+  color: var(--green);
+  padding: 7px 12px;
+  border: 1px solid rgba(159, 232, 112, 0.45);
+  border-radius: var(--r-pill);
+  background: rgba(14, 15, 12, 0.55);
+}
+.villa-content .hero-title {
+  margin: 0 0 var(--space-6);
+  color: #fff;
+  max-width: 11ch;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.25);
+}
+.villa-hl {
+  /* stays lime green through sunrise and sunset */
+  color: var(--green);
+}
+.villa-content .lead {
+  margin: 0 0 var(--space-8);
+  max-width: 44ch;
+  color: rgba(255, 255, 255, 0.86);
+}
+.villa-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.villa-trust li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 9px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--r-pill);
+  background: rgba(14, 15, 12, 0.5);
+  color: #fff;
+  font-size: var(--fs-body-s);
+  font-weight: 600;
+}
+.villa-trust svg.i {
+  width: 18px;
+  height: 18px;
+  color: var(--green);
+}
+
+/* Desktop-only text redesign: editorial stack, glass trust bar */
+@keyframes villa-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+@media (min-width: 900px) {
+  .villa-content {
+    transform: translateY(calc(var(--p) * -36px - 40px));
+    /* fades out as the sunset scroll progresses */
+    opacity: clamp(0, calc(1 - var(--p) * 1.8), 1);
+  }
+  /* fade-in reveal on load, staggered top to bottom */
+  .villa-content .eyebrow,
+  .villa-content .hero-title,
+  .villa-content .lead,
+  .villa-content .villa-trust {
+    animation: villa-reveal 0.9s var(--ease) both;
+  }
+  .villa-content .eyebrow {
+    animation-delay: 0.1s;
+  }
+  .villa-content .hero-title {
+    animation-delay: 0.25s;
+  }
+  .villa-content .lead {
+    animation-delay: 0.45s;
+  }
+  .villa-content .villa-trust {
+    animation-delay: 0.6s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .villa-content .eyebrow,
+    .villa-content .hero-title,
+    .villa-content .lead,
+    .villa-content .villa-trust {
+      animation: none;
+    }
+  }
+  .villa-content .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #fff;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+    margin-bottom: var(--space-5);
+  }
+  .villa-content .eyebrow::before {
+    content: "";
+    width: 44px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--green);
+  }
+  .villa-content .hero-title {
+    max-width: none;
+    font-size: clamp(64px, 7.6vw, 124px);
+    font-family: var(--font-inter-tight), var(--font-inter), system-ui, sans-serif;
+    font-weight: 600;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    text-align: left;
+    text-shadow: 0 4px 40px rgba(0, 0, 0, 0.35);
+  }
+  .villa-content .lead {
+    max-width: 40ch;
+    margin: 0 0 var(--space-8);
+    padding-left: 20px;
+    border-left: 2px solid var(--green);
+    font-size: clamp(17px, 1.35vw, 21px);
+    line-height: 1.55;
+    color: #fff;
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5);
+  }
+  .villa-trust {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    padding: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+  }
+  .villa-trust li {
+    padding: 10px 18px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    white-space: nowrap;
+  }
+  .villa-trust li + li {
+    border-left: 1px solid rgba(255, 255, 255, 0.28);
+  }
+}
+
+/* sunrise → sunset progress, bottom right */
+.villa-progress {
+  position: absolute;
+  right: clamp(16px, 4vw, 48px);
+  bottom: clamp(24px, 5vh, 48px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.villa-progress-sun,
+.villa-progress-moon {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.villa-progress-sun {
+  background: #ffe08a;
+  box-shadow: 0 0 12px #ffe08a;
+  opacity: calc(1 - var(--fade) * 0.6);
+}
+.villa-progress-moon {
+  background: #ff9a4d;
+  box-shadow: 0 0 12px #ff9a4d;
+  opacity: calc(0.4 + var(--fade) * 0.6);
+}
+.villa-progress-track {
+  width: clamp(72px, 10vw, 140px);
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+}
+.villa-progress-track span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #ffe08a, #ff9a4d);
+  transform: scaleX(var(--p));
+  transform-origin: left;
+}
+@media (max-width: 899px) {
+  .villa-hero {
+    height: 200svh;
+  }
+  .villa-desk {
+    display: none;
+  }
+  .villa-mob {
+    display: block;
+  }
+  .villa-layer img {
+    object-position: 62% 50%;
+  }
+  /* portrait photos: copy sits on the sky, chips on the road, the villa stays clear between */
+  .villa-stage {
+    align-items: stretch;
+  }
+  .villa-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: calc(var(--hdr, 0px) + 56px);
+    padding-bottom: clamp(64px, 10vh, 96px);
+    transform: none;
+  }
+  .villa-content .eyebrow {
+    align-self: flex-start;
+    font-size: 11px;
+  }
+  .villa-content .hero-title {
+    max-width: none;
+    margin-bottom: var(--space-4);
+    font-size: clamp(34px, 10.5vw, 48px);
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+  }
+  .villa-content .lead {
+    max-width: 30ch;
+    margin: 0;
+    font-size: 15px;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+  }
+  .villa-trust {
+    margin-top: auto;
+    gap: var(--space-2);
+  }
+  .villa-scrim {
+    background:
+      linear-gradient(180deg, rgba(12, 14, 10, 0.55) 0%, rgba(12, 14, 10, 0.25) 34%, rgba(12, 14, 10, 0) 52%),
+      linear-gradient(0deg, rgba(12, 14, 10, 0.5) 0%, rgba(12, 14, 10, 0) 24%);
+  }
+  .villa-progress {
+    bottom: 24px;
+  }
+}
+@media (max-width: 599px) {
+  .villa-trust li {
+    padding: 7px 11px;
+    font-size: 13px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .villa-content {
+    transform: none;
+  }
+}
+
+/* Mobile hero: crisp photos, almost no dimming. */
+@media (max-width: 899px) {
+  .villa-layer,
+  .villa-layer img {
+    transform: none;
+    filter: none;
+  }
+  .villa-scrim {
+    background: linear-gradient(180deg, rgba(12, 14, 10, 0.3) 0%, rgba(12, 14, 10, 0) 38%);
+  }
+  .villa-content .eyebrow {
+    background: rgba(14, 15, 12, 0.6);
+  }
+}
+
+/* Mobile: scroll-linked reveal. The sunset fades in gradually as you scroll down and fades back out to
+   the sunrise as you scroll up. The villas are aligned, so the blend stays crisp. */
+@media (max-width: 899px) {
+  .villa-hero {
+    --fade: clamp(0, calc((var(--p) - 0.03) / 0.6), 1);
+  }
+  .villa-sunset.villa-mob {
+    opacity: var(--fade);
+    transition: none;
+  }
+}
+
+/* Mobile: headline block drifts up gently as the hero scrolls (text only, the photos never move) */
+@media (max-width: 899px) and (prefers-reduced-motion: no-preference) {
+  .villa-content {
+    transform: translateY(calc(var(--p) * -28px));
+    will-change: transform;
+  }
+}
+
+/* Mobile: stop the dark flash behind the navbar when scrolling starts.
+   - the stage covers the largest viewport, so the browser toolbar collapsing never exposes the dark backdrop
+   - both photos are decoded up front and kept on their own GPU layer
+   - the navbar's glass gets its own layer so it is not repainted over a changing backdrop */
+@media (max-width: 899px) {
+  .villa-hero {
+    background: #d9a76a;
+  }
+  .villa-stage {
+    height: 100lvh;
+  }
+  .villa-layer {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  .site-header .header-inner {
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .site-header,
+  .site-header.scrolled {
+    transition: none;
+  }
+  .site-header .header-inner,
+  .site-header.scrolled .header-inner {
+    transition: none;
+  }
+}
+
+/* the fixed navbar no longer takes space, so reserve it above the page content */
+main {
+  padding-top: calc(82px + env(safe-area-inset-top));
+}
+
+/* Mobile: line the two photos up so the villa stays put when the sunrise swaps to the sunset,
+   and shift the crop left so the sun at the left edge stays in frame. */
+@media (max-width: 899px) {
+  .villa-layer img {
+    object-position: 12% 50%;
+  }
+  /* sunset villa is ~3% smaller and sits ~30px lower in its source photo; pin the front door in place */
+  .villa-sunset.villa-mob img {
+    transform: scale(1.027) translateY(-1.3%);
+    transform-origin: 66% 75%;
+  }
+}
+
+/* Mobile: brighter, heavier intro paragraph under the headline */
+@media (max-width: 899px) {
+  .villa-content .lead {
+    color: #fff;
+    font-weight: 600;
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55);
+  }
+}
+
+/* Mobile: intro paragraph in solid, bold pure white */
+@media (max-width: 899px) {
+  .villa-content .lead {
+    color: #ffffff;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* Mobile: same editorial hero as desktop — line eyebrow, tight Inter Tight headline,
+   green-ruled lead and a glass trust bar (icon over label so all three fit). */
+@media (max-width: 899px) {
+  .villa-content .eyebrow,
+  .villa-content .hero-title,
+  .villa-content .lead,
+  .villa-content .villa-trust {
+    animation: villa-reveal 0.9s var(--ease) both;
+  }
+  .villa-content .eyebrow {
+    animation-delay: 0.1s;
+  }
+  .villa-content .hero-title {
+    animation-delay: 0.25s;
+  }
+  .villa-content .lead {
+    animation-delay: 0.45s;
+  }
+  .villa-content .villa-trust {
+    animation-delay: 0.6s;
+  }
+  .villa-content .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+    margin-bottom: var(--space-4);
+  }
+  .villa-content .eyebrow::before {
+    content: "";
+    flex: none;
+    width: 28px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--green);
+  }
+  .villa-content .hero-title {
+    font-family: var(--font-inter-tight), var(--font-inter), system-ui, sans-serif;
+    font-size: clamp(36px, 11.5vw, 52px);
+    font-weight: 600;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.35);
+  }
+  .villa-content .lead {
+    max-width: 32ch;
+    padding-left: 14px;
+    border-left: 2px solid var(--green);
+    font-weight: 500;
+    line-height: 1.5;
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5);
+  }
+  .villa-trust {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: stretch;
+    gap: 0;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+  }
+  .villa-trust li {
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    padding: 7px 6px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    font-size: 11px;
+    line-height: 1.2;
+    text-align: center;
+  }
+  .villa-trust li + li {
+    border-left: 1px solid rgba(255, 255, 255, 0.28);
+  }
+  .villa-trust svg.i {
+    width: 16px;
+    height: 16px;
+  }
+}
+@media (max-width: 899px) and (prefers-reduced-motion: reduce) {
+  .villa-content .eyebrow,
+  .villa-content .hero-title,
+  .villa-content .lead,
+  .villa-content .villa-trust {
+    animation: none;
+  }
+}
+
+/* Mobile: heading block and trust bar stay fixed while the hero scrolls (no drift) */
+@media (max-width: 899px) {
+  .villa-content {
+    transform: none !important;
+    will-change: auto;
+  }
+}
+
+/* Mobile: seat the headline block a little lower so it clears the navbar (desktop untouched) */
+@media (max-width: 899px) {
+  .villa-content {
+    padding-top: calc(var(--hdr, 0px) + 96px);
   }
 }

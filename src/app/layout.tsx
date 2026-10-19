@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Mono } from "next/font/google";
+import { Inter, Inter_Tight, Space_Mono } from "next/font/google";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
@@ -9,6 +9,11 @@ import { ScrollProgress } from "@/components/ScrollProgress";
 import { SmoothScroll } from "@/components/SmoothScroll";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-inter-tight",
+  display: "swap",
+});
 const spaceMono = Space_Mono({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -36,7 +41,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${inter.variable} ${spaceMono.variable}`}>
+    <html lang="en-IN" className={`${inter.variable} ${interTight.variable} ${spaceMono.variable}`}>
       <body>
         <noscript>
           <style>{".reveal{opacity:1;transform:none}"}</style>

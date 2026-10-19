@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Faq } from "@/components/Faq";
 import { FeatureStack } from "@/components/FeatureStack";
 import { Icon } from "@/components/Icon";
-import { PhoneViewer } from "@/components/PhoneViewer";
+import { VillaHero } from "@/components/VillaHero";
 import { AboutWheel } from "@/components/AboutWheel";
 import { BrokerIndex } from "@/components/BrokerIndex";
 import { VisitCalendar } from "@/components/VisitCalendar";
@@ -115,51 +115,8 @@ const DOORS = [
 export default function HomePage() {
   return (
     <>
-      {/* start downloading the 3D phone right away so it is ready sooner */}
-      <link
-        rel="preload"
-        href="/models/iphone-18-pro-max.glb"
-        as="fetch"
-        type="model/gltf-binary"
-        crossOrigin="anonymous"
-      />
-      {/* Hero */}
-      <section className="hero hero-home" aria-labelledby="home-h">
-        <div className="container hero-grid">
-          <div>
-            <span className="eyebrow">Zero brokerage · IFH verified</span>
-            <h1 className="hero-title" id="home-h">
-              <span className="title-l">
-                Verified <br className="title-br" />
-                <span className="hl-green">homes</span>
-              </span>{" "}
-              <span className="title-r">
-                and <br className="title-br" />
-                <span className="hl-green">offices</span>
-              </span>
-            </h1>
-            <p className="lead">
-              Rent a home or find an office. Browse IFH-verified listings and
-              connect directly with owners.
-            </p>
-            <ul className="trust-row">
-              <li>
-                <Icon name="file" />
-                Clear property details
-              </li>
-              <li>
-                <Icon name="shield" />
-                Trust-first search
-              </li>
-              <li>
-                <Icon name="userCheck" />
-                One account
-              </li>
-            </ul>
-          </div>
-          <PhoneViewer />
-        </div>
-      </section>
+      {/* Hero — sunrise villa crossfades to sunset as you scroll */}
+      <VillaHero />
 
       <CtaStrip />
 
